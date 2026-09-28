@@ -52,7 +52,7 @@
 </div>
 
 <script>
-  var APP_ID = "__APP_ID__";
+  var APP_ID = "144ba140-fcea-4ae2-b7a4-6a42ff8bdf06";
   var $ = function(id){ return document.getElementById(id); };
   var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) ||
               (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
@@ -70,6 +70,7 @@
     try {
       await OneSignal.init({
         appId: APP_ID,
+        safari_web_id: "web.onesignal.auto.2eb33d58-6740-481f-b49f-67bae0b73a06",
         serviceWorkerPath: "privacy/push-test/OneSignalSDKWorker.js",
         serviceWorkerParam: { scope: "/privacy/push-test/" },
         allowLocalhostAsSecureOrigin: false
