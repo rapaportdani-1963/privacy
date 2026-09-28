@@ -48,7 +48,7 @@
   <button id="go" disabled>טוען…</button>
 
   <div id="st" class="box"></div>
-  <p><small id="ver">גרסת בדיקה 1</small></p>
+  <p><small id="ver">גרסת בדיקה 2</small></p>
 </div>
 
 <script>
@@ -99,11 +99,17 @@
       try { localStorage.setItem('kg_name', name); } catch (e) {}
       btn.disabled = true; btn.textContent = 'רושם…';
       try {
-        await OneSignal.login(name);
-        OneSignal.User.addTag('name', name);
+        if (window.Notification && Notification.permission === 'denied') {
+          show('ההתראות חסומות לאתר הזה.<br>לחצו על הסמל שמשמאל לכתובת האתר ← הרשאות ← התראות ← לאפשר.<br>אחר כך לרענן את הדף וללחוץ שוב.', 'err');
+          btn.disabled = false; btn.textContent = 'אני רוצה לקבל התראות';
+          return;
+        }
         await OneSignal.Notifications.requestPermission();
         if (!OneSignal.Notifications.permission) {
-          show('ההרשאה לא אושרה. אפשר לאשר בהגדרות הדפדפן ולנסות שוב.', 'err');
+          show('ההרשאה לא אושרה (' + (window.Notification ? Notification.permission : '?') + ').<br>לחצו על הסמל שמשמאל לכתובת האתר ← הרשאות ← התראות ← לאפשר, ורעננו.', 'err');
+        } else {
+          await OneSignal.login(name);
+          OneSignal.User.addTag('name', name);
         }
       } catch (e) {
         show('שגיאה: ' + e.message, 'err');
